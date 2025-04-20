@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FitPro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Product+Sans:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="nav-panel">
+        <span class="material-symbols-outlined">exercise</span>
+        <span class="material-symbols-outlined">home</span>
+        <span class="material-symbols-outlined">fitness_center</span>
+        <span class="material-symbols-outlined">restaurant</span>
+        <span class="material-symbols-outlined">show_chart</span>
+        <span class="material-symbols-outlined">settings</span>
+    </div>
+    <div class="header">
+        <h1>Welcome back, User 👋</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for healthy metrics">
+            <button>Search</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card-section">
+            <div class="card glass-effect">
+                <h3>AI Tracking</h3>
+                <span class="blinking-dot" style="color: green;">●</span>
+                <div class="camera">
+                    <img src="{{ url_for('video_feed') }}">
+                </div>
+            </div>
+            <div class="card">
+                <h3>{{ month }} Calendar</h3>
+                <div class="calendar">
+                    {% for day in range(1, 32) %}
+                        <div class="day {{ 'green' if day % 3 == 0 else 'red' }}"><span>{{ day }}</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-cards">
+            <div class="card">
+                <h3>Today's Progress</h3>
+                <div class="progress-details">
+                    <p>Calories: 2780</p>
+                    <div class="chart-container">
+                        <canvas id="todayProgressChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Training</h3>
+                <div class="training-details">
+                    <p>Weight: 142.0 Kg</p>
+                    <div class="chart-container">
+                        <canvas id="trainingChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Sleep</h3>
+                <div class="sleep-details">
+                    <p>Sleep Quality: 89%</p>
+                    <p>Sleep Duration: 4.32 hrs</p>
+                    <div class="chart-container">
+                        <canvas id="sleepChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        new Chart(document.getElementById('todayProgressChart'), {
+            type: 'line',
+            data: {
+                labels: ['Morning', 'Afternoon', 'Evening'],
+                datasets: [{
+                    label: 'Calories Burned',
+                    data: [300, 450, 200],
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        new Chart(document.getElementById('trainingChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Weight',
+                    data: [140, 141, 142, 143, 142, 141, 140],
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        new Chart(document.getElementById('sleepChart'), {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Sleep Duration',
+                    data: [7, 7.5, 6.5, 8, 7, 8.5, 7.5],
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+    </script>
+</body>
+</html>
